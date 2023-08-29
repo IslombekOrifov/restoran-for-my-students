@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="admin-panel clearfix">
+        <div class="slidebar">
+          <div class="logo">
+            <a href=""> <img src="./logo.jpg" alt=""></a>
+          </div>
+          <ul>
+            <li><a href="#dashboard" id="targeted">Hammasi</a></li>
+            <li><a href="#posts">Foyda</a></li>
+          </ul>
+        </div>
+        <div class="boss">
+          <div class="mainContent clearfix">
+            <div id="dashboard">
+              <h2 class="header"><span class="icon"></span>Hammasi</h2>
+              
+              <div class="main-home">
+                <div class="table-menu">
+                  
+                  <table>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Umumiy</td>
+                            <td>Sotildi</td>
+                            <td>Qoldi</td>
+                            <td>Narx dona</td>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        {% for product in products %}
+                        <tr id="hammasi-tr">
+                            <td>{{ product.title }}</td>
+                            <td>{{ product.count_all }}</td>
+                            <td>{{ product.count_sold }}</td>
+                            <td>{{ product.ostatka }}</td>
+                            <td><span class="status delivered">{{ product.price }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                  
+                </div>
+              </div>
+              
+             </div>
+             <div id="posts">
+               <h2 class="header">Foyda</h2>
+               
+               <div class="main-home">
+                <div class="table-menu">
+                  
+                  <table>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                        
+                            <td>Narx dona</td>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        {% for product in products%}
+                        <tr>
+                            <td>{{ product.title }}</td>
+                          
+                            <td><span class="status delivered">{{ product.foyda }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                  
+                </div>
+              </div>
+             </div>
+            
+           </div>
+           <ul class="statusbar">
+             <li><a href=""></a></li>
+             <li><a href=""></a></li>
+             <li class="profiles-setting"><a href="">s</a></li>
+             <li class="logout"><a href="">k</a></li>
+           </ul>
+         </div>
+    </div>                     
+{% endblock %}
