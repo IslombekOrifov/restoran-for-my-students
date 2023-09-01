@@ -4,7 +4,7 @@ list.forEach(item => {
     item.addEventListener('click', function(event){
         // console.log(event.target.classList.contains('add'));
         if(event.target.classList.contains('add')){
-
+            
             var itemNew = item.cloneNode(true);
             let checkIsset  = false;
 

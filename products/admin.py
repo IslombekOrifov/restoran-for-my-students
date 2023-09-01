@@ -6,6 +6,10 @@ from .models import *
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title',)
     prepopulated_fields = {'slug': ('title',)}
-admin.site.register(Product)
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('title',)
 admin.site.register(Order)
-admin.site.register(OrderItem)
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('product', 'product_count')

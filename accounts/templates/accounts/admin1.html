@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <div class="container d-flex flex-wrap">
-        <div class="col-12 d-flex justify-content-center m-4"><p>Admin panel</p></div>
 
-
-        <div class="col-12 d-flex justify-content-center m-4">
-            <form method='post'>
+        <div class="col-12 d-flex justify-content-around m-4">
+            <div></div>
+            <form method='post' >
                 {% csrf_token %}
-                <input type='date' name='start_date' required>
-                <input type='date' name='end_date' required>
-                <input type='submit' value='Submit'>
+                <input type='date' id="id_start_date" name='start_date' placeholder="dd-mm-yyyy" required > 
+                <label for="id_start_date">-dan</label>
+                <input type='date'  id="id_end_date" name='end_date' placeholder="dd-mm-yyyy" required>
+                {{ form.end_date }}
+                <label for="id_end_date">-gacha</label>
+                <input type='submit' value='Yuborish'>
             </form>
+            <div><a href="{% url 'accounts:logout' %}">Chiqish</a></div>
         </div>
 
         <!-- Asosiy jadval -->
@@ -30,48 +31,62 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nomi</th>
-                    <th scope="col">Umumiy</th>
                     <th scope="col">Sotildi</th>
-                    <th scope="col">Qoldi</th>
-                    <th scope="col">Narx dona</th>
-                    <th scope="col">Foyda dona</th>
-                    <th scope="col">Foyda Umumiy</th>
+                    <th scope="col">Narx</th>
+                    <th scope="col">UMUMIY NARXI</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
                     {% for product in products %}
                         <tr>
-                            <th scope="row"></th>
+                            <th scope="row">{{ forloop.counter }}</th>
                             <td>{{ product.title }}</td>
-                            <td>{{ product.count_all }}</td>
-                            <td>{{ product.count_sold }}</td>
-                            <td>{{ product.ostatka }}</td>
+                            <td>{{ product.sotildi }}</td>
                             <td>{{ product.price }}</td>
-                            <td>{{ product.foyda }}</td>
-                            <td>{{ product.foyda_umumiy }}</td>
+                            <td>{{ product.umumiysavdo }}</td>
+                            
                         </tr>
                     {% endfor %}
                 </tbody>
               </table>
         </div>
-        <div class="row col-3 d-flex justify-content-end bg-transparent">
+        <div class="row col-3 d-flex justify-content-end bg-transparent pl-1 pr-1">
             <table class="table">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">Jami savdo</th>
-                    <th scope="col">foyda</th>
-                    <th scope="col">Sana</th>
+                    <th scope="col">Umumiy pul</th>
+                    <th scope="col">Umumiy tan narx</th>
+                    <th scope="col">Umumiy foyda</th>
                   </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row"></th>
-                        <td>{{ orders_price }}</td>
-                        <td>{{ orders_price }}</td>
+                        <th scope="row">{{ orders_price.umumiy_savdo }}</th>
+                        <td>{{ orders_price.tan_narx }}</td>
+                        <td>{{ orders_price.umumiy_foyda }}</td>
                     </tr>
                 </tbody>
               </table>
         </div>
     </div>
+    <script>
+      function formatDate(inputDate) {
+        const parts = inputDate.split('-');
+        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        return formattedDate;
+      }
+  
+      const inputDateElement = document.getElementById('id_start_date');
+      const inputDateElement = document.getElementById('id_end_date');
+      inputDateElement.addEventListener('input', function() {
+        const inputDate = inputDateElement.value;
+        const formattedDate = formatDate(inputDate);
+        inputDateElement.value = formattedDate;
+      });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

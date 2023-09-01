@@ -11,7 +11,7 @@ from accounts.validators import validate_image
 class Category(models.Model):
     title = models.CharField(max_length=30, unique=True)
     slug = models.SlugField(max_length=30, blank=True)
-
+    priority = models.PositiveIntegerField(default=0)
     # def save(self):
     #     if self.title:
     #         self.slug = slugify(self.title)
@@ -53,6 +53,9 @@ class OrderItem(models.Model):
     price = models.PositiveBigIntegerField()
     product_count = models.PositiveIntegerField()
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product.title
 
 
 

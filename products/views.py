@@ -6,7 +6,7 @@ from .card import Cart
 
 def main_menu(request, slug=None):
     cart = Cart(request)
-    categories = Category.objects.all()
+    categories = Category.objects.all().order_by('priority')
     if slug is None:
         products = Product.objects.filter(category=categories.first())
         category = None
@@ -21,25 +21,44 @@ def main_menu(request, slug=None):
     }
     return render(request, 'products/index.html', context)
 
+def main_menu_custom(request, slug=None):
+    cart = Cart(request)
+    categories = Category.objects.all().order_by('priority')
+    if slug is None:
+        subquery = Product.objects.values('category').distinct()
+        products = Product.objects.filter(category__in=subquery)
+        category = None
+    else:
+        products = Product.objects.filter(category__slug=slug)
+        category = categories.filter(slug=slug).first()
+    context = {
+        'categories': categories,
+        'category': category,
+        'products': products,
+        'cart': cart,
+    }
+    return render(request, 'products/index1.html', context)
+
 
 def cart_add(request):
     cart = Cart(request)
     product_id = request.POST.get('product_id')
-
-    print(product_id)
     product_count = int(request.POST.get('product_count'))
     print(product_count)
     product = get_object_or_404(Product, pk=int(product_id))
-    cart.add(product, quantity=product_count)
+    cart.add(product, quantity=product_count,)
     return JsonResponse({'status':'ok'})
 
 def cart_remove(request):
-    product_id = request.POST.get('product_id')
+    product_id = str(request.POST.get('product_id'))
     cart = Cart(request)
-    cart.clear()
-    # cart.remove(product_id)
+    cart.remove(product_id)
     return JsonResponse({'status':'ok'})
 
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("products:main_menu")
 
 def order_create(request):
     cart = Cart(request)
